@@ -4,110 +4,142 @@
 <meta charset="utf-8">
 <title>베이직클래스 블로그 디자인</title>
 <!--
-  네이버 블로그 개편용 이미지 원본.
+  네이버 블로그 개편용 이미지 원본 (v2: 로고 반영, 차분한 신뢰형).
   ?part=title   → 타이틀 이미지 (966×440)
   ?part=btn-N   → 위젯 버튼 N (170×170, N=1..5)
-  ?part=preview → 적용 후 모습 미리보기 (966×660)
-  문구·전화번호는 아래 DATA만 고치면 전체에 반영된다.
+  ?part=mobile  → 모바일 커버 (1080×1080)
+  ?part=preview → 적용 후 모습 미리보기
+  로고 원본: logo.jpg (흰 배경 → mix-blend-mode:multiply로 배경에 녹임)
 -->
 <style>
   :root{
-    --navy:#1c2358; --navy-2:#27307a; --ink:#141833;
-    --orange:#ff6a2b; --cream:#fff6ec; --line:rgba(255,255,255,.10);
+    --navy:#082970;       /* 로고 방패 색 */
+    --navy-deep:#061d52;
+    --ink:#16203f;
+    --muted:#5b6380;
+    --ivory:#f7f4ec;
+    --gold:#a88a52;
+    --line:#d9d3c3;
     --kakao:#fee500;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{background:#fff;font-family:'Noto Sans KR',sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
-  .part{display:none}
-  .part.on{display:block}
+  .serif{font-family:'Noto Serif KR',serif}
+  .latin{font-family:'Cormorant Garamond',serif}
+
+  /* 로고 방패 부분만 잘라 쓰기: 원본 1284×1263 중 (245,85)–(1015,805) */
+  .crest{--h:60px;width:calc(var(--h)*770/720);height:var(--h);flex:none;
+    background:url(logo.jpg) no-repeat;
+    background-size:calc(var(--h)*1284/720) auto;
+    background-position:calc(var(--h)*-245/720) calc(var(--h)*-85/720);
+    mix-blend-mode:multiply}
 
   /* ---------- 타이틀 ---------- */
-  .title{
-    position:relative;width:966px;height:440px;overflow:hidden;color:#fff;
-    background:
-      linear-gradient(var(--line) 1px,transparent 1px) 0 0/24px 24px,
-      linear-gradient(90deg,var(--line) 1px,transparent 1px) 0 0/24px 24px,
-      radial-gradient(120% 90% at 85% 10%,var(--navy-2) 0%,var(--navy) 55%,#141a45 100%);
-  }
-  .bar{position:absolute;left:40px;right:40px;top:26px;display:flex;align-items:center;justify-content:space-between}
-  .logo{display:flex;align-items:baseline;gap:10px}
-  .logo b{font-family:'Black Han Sans';font-weight:400;font-size:30px;letter-spacing:-.5px}
-  .logo span{font-size:12px;font-weight:700;letter-spacing:3px;color:rgba(255,255,255,.55)}
-  .tel{font-size:13px;color:rgba(255,255,255,.7);display:flex;align-items:baseline;gap:8px}
-  .tel strong{font-size:24px;font-weight:900;color:var(--orange);letter-spacing:-.3px}
-  .rule{position:absolute;left:40px;right:40px;top:78px;height:1px;background:rgba(255,255,255,.18)}
+  .title{position:relative;width:966px;height:440px;overflow:hidden;background:var(--ivory);isolation:isolate}
+  .title::after{content:"";position:absolute;inset:14px;border:1px solid var(--line);pointer-events:none}
+  .bar{position:absolute;left:44px;right:44px;top:30px;display:flex;align-items:center;justify-content:space-between}
+  .brand{display:flex;align-items:center;gap:14px}
+  .brand .crest{--h:58px}
+  .brand b{display:block;font-size:26px;font-weight:900;letter-spacing:-.5px;color:var(--ink)}
+  .brand small{display:block;font-size:13px;letter-spacing:4px;color:var(--navy);margin-top:1px}
+  .tel{text-align:right}
+  .tel span{display:block;font-size:12px;color:var(--muted);letter-spacing:1px}
+  .tel strong{font-size:26px;font-weight:700;color:var(--navy);letter-spacing:-.3px}
+  .rule{position:absolute;left:44px;right:44px;top:108px;height:1px;background:var(--line)}
 
-  .hero{position:absolute;left:40px;top:118px;width:470px}
-  .chip{display:inline-block;font-size:13px;font-weight:700;padding:6px 12px;border-radius:999px;
-        background:rgba(255,106,43,.16);color:#ffb08c;border:1px solid rgba(255,106,43,.45)}
-  .hero h1{margin-top:18px;font-size:44px;line-height:1.22;font-weight:900;letter-spacing:-1.5px}
-  .hero h1 em{font-style:normal;color:var(--orange)}
-  .hero p{margin-top:18px;font-size:16px;line-height:1.6;color:rgba(255,255,255,.78)}
-  .subjects{margin-top:22px;display:flex;gap:6px}
-  .subjects i{font-style:normal;font-size:14px;font-weight:700;width:46px;height:46px;border-radius:12px;
-        display:grid;place-items:center;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16)}
+  .hero{position:absolute;left:44px;top:136px;width:460px}
+  .eyebrow{font-size:13px;font-weight:700;color:var(--gold);letter-spacing:1px}
+  .hero h1{margin-top:14px;font-size:40px;line-height:1.3;font-weight:700;letter-spacing:-1px;color:var(--ink)}
+  .hero h1 em{font-style:normal;color:var(--navy);box-shadow:inset 0 -10px 0 rgba(168,138,82,.22)}
+  .hero p{margin-top:16px;font-size:15.5px;line-height:1.7;color:var(--muted)}
+  .facts{margin-top:20px;display:flex;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .facts div{flex:1;padding:10px 0;text-align:center;font-size:14px;font-weight:700;color:var(--navy)}
+  .facts div+div{border-left:1px solid var(--line)}
 
-  .grades{position:absolute;right:40px;top:112px;width:360px;display:flex;flex-direction:column;gap:12px}
-  .grade{display:flex;align-items:center;gap:16px;padding:18px 20px;border-radius:16px;
-         background:#fff;color:var(--ink);box-shadow:0 10px 24px rgba(0,0,0,.22)}
-  .grade .no{flex:none;width:52px;height:52px;border-radius:14px;display:grid;place-items:center;
-         font-family:'Black Han Sans';font-size:22px;color:#fff;background:var(--navy)}
-  .grade:nth-child(2) .no{background:var(--navy-2)}
-  .grade:nth-child(3) .no{background:var(--orange)}
-  .grade h3{font-size:19px;font-weight:900;letter-spacing:-.5px}
-  .grade p{font-size:13.5px;color:#5a5f7a;margin-top:2px}
-  .grade .go{margin-left:auto;font-size:20px;color:#b5b9cc;font-weight:700}
+  .grades{position:absolute;right:44px;top:136px;width:356px;display:flex;flex-direction:column;gap:12px}
+  .grade{display:flex;align-items:center;gap:16px;padding:16px 20px;background:#fff;border:1px solid var(--line);border-left:4px solid var(--navy)}
+  .grade .no{flex:none;width:48px;height:48px;border-radius:50%;display:grid;place-items:center;
+     font-size:19px;font-weight:700;color:var(--navy);border:1.5px solid var(--navy)}
+  .grade h3{font-size:18px;font-weight:700;letter-spacing:-.3px}
+  .grade p{font-size:13.5px;color:var(--muted);margin-top:2px}
+  .watermark{position:absolute;right:-40px;bottom:-70px;opacity:.07}
+  .watermark .crest{--h:360px}
 
   /* ---------- 버튼 위젯 ---------- */
-  .btn{width:170px;height:170px;border-radius:18px;display:flex;flex-direction:column;align-items:center;
-       justify-content:center;gap:12px;background:var(--navy);color:#fff;text-align:center}
-  .btn svg{width:54px;height:54px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
-  .btn b{font-size:19px;font-weight:900;letter-spacing:-.5px}
-  .btn small{font-size:12px;opacity:.7;margin-top:-8px}
-  .btn.alt{background:var(--navy-2)}
-  .btn.light{background:var(--cream);color:var(--navy)}
+  .btn{width:170px;height:170px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;
+       background:var(--navy);color:#fff;text-align:center}
+  .btn svg{width:48px;height:48px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .btn b{font-size:18px;font-weight:700;letter-spacing:-.3px}
+  .btn small{font-size:12px;opacity:.72;margin-top:-8px}
+  .btn.deep{background:var(--navy-deep)}
+  .btn.ivory{background:var(--ivory);color:var(--navy);box-shadow:inset 0 0 0 1px var(--line)}
   .btn.kakao{background:var(--kakao);color:#3a1d1d}
-  .btn.call{background:var(--orange)}
-  .btn.call b.num{font-size:17px;letter-spacing:-.2px}
+  .btn.call{background:#fff;color:var(--navy);box-shadow:inset 0 0 0 2px var(--navy)}
+  .btn.call .num{font-size:17px;font-weight:700;margin-top:-4px}
+
+  /* ---------- 모바일 커버 ---------- */
+  .mobile{position:relative;width:1080px;height:1080px;background:var(--ivory);display:flex;flex-direction:column;
+          align-items:center;justify-content:center;text-align:center;overflow:hidden;isolation:isolate}
+  .mobile::after{content:"";position:absolute;inset:36px;border:2px solid var(--line)}
+  .mobile .crest{--h:230px}
+  .mobile .name{margin-top:26px;font-size:64px;font-weight:900;letter-spacing:-1px}
+  .mobile .slogan{font-size:30px;letter-spacing:10px;color:var(--navy);margin-top:4px}
+  .mobile h1{margin-top:56px;font-size:58px;line-height:1.35;font-weight:700;letter-spacing:-1.5px}
+  .mobile h1 em{font-style:normal;color:var(--navy);box-shadow:inset 0 -16px 0 rgba(168,138,82,.22)}
+  .mobile .sub{margin-top:30px;font-size:30px;color:var(--muted)}
+  .mobile .mtel{margin-top:44px;font-size:44px;font-weight:700;color:var(--navy)}
 
   /* ---------- 미리보기 ---------- */
   .preview{width:966px;background:#fff}
   .row{display:flex;justify-content:space-between;padding:24px 0 26px}
   .notice{margin:0 0 24px;border-top:2px solid var(--navy);font-size:13px;color:#555}
   .notice div{padding:10px 4px;border-bottom:1px solid #e6e7ee}
-  .notice span{color:var(--orange);font-weight:700;margin-right:8px}
+  .notice span{color:var(--navy);font-weight:700;margin-right:8px}
 </style>
 </head>
 <body>
 
 <template id="title-tpl">
   <div class="title">
+    <div class="watermark"><div class="crest"></div></div>
     <div class="bar">
-      <div class="logo"><b>베이직클래스</b><span>BASIC CLASS</span></div>
-      <div class="tel">전화상담 <strong>0507-1480-3536</strong></div>
+      <div class="brand"><div class="crest"></div>
+        <div><b>베이직클래스</b><small class="latin">FROM THE BASICS</small></div></div>
+      <div class="tel"><span>전화 상담</span><strong>0507-1480-3536</strong></div>
     </div>
     <div class="rule"></div>
     <div class="hero">
-      <span class="chip">잠실본동 · 초·중·고 전과목 소수정예</span>
-      <h1>원장이 직접 가르치고<br><em>끝까지</em> 확인합니다.</h1>
-      <p>학생 한 명 한 명의 빈틈을 찾아 채우는<br>소수정예 맞춤 지도 · 학교별 꼼꼼한 내신 대비</p>
-      <div class="subjects"><i>수학</i><i>영어</i><i>국어</i><i>사회</i><i>과학</i></div>
+      <div class="eyebrow">잠실본동 · 초·중·고 전과목 소수정예</div>
+      <h1 class="serif">기본부터 바로 세우고,<br><em>끝까지</em> 확인합니다.</h1>
+      <p>원장이 직접 가르치는 소수정예 수업으로<br>학생 한 명 한 명의 빈틈을 찾아 채웁니다.</p>
+      <div class="facts"><div>원장 직강</div><div>소수정예</div><div>학교별 내신</div></div>
     </div>
     <div class="grades">
-      <div class="grade"><div class="no">초</div><div><h3>초등부</h3><p>개념 이해와 바른 공부 습관</p></div></div>
-      <div class="grade"><div class="no">중</div><div><h3>중등부</h3><p>학교별 내신 · 탄탄한 현행</p></div></div>
-      <div class="grade"><div class="no">고</div><div><h3>고등부</h3><p>내신 관리와 수능 기초</p></div></div>
+      <div class="grade"><div class="no serif">초</div><div><h3>초등부</h3><p>개념 이해와 바른 공부 습관</p></div></div>
+      <div class="grade"><div class="no serif">중</div><div><h3>중등부</h3><p>학교별 내신 · 탄탄한 현행</p></div></div>
+      <div class="grade"><div class="no serif">고</div><div><h3>고등부</h3><p>내신 관리와 수능 기초</p></div></div>
     </div>
   </div>
 </template>
 
+<template id="mobile-tpl">
+  <div class="mobile">
+    <div class="crest"></div>
+    <div class="name">베이직클래스</div>
+    <div class="slogan latin">FROM THE BASICS</div>
+    <h1 class="serif">기본부터 바로 세우고,<br><em>끝까지</em> 확인합니다.</h1>
+    <div class="sub">잠실본동 · 초·중·고 전과목 · 원장 직강 소수정예</div>
+    <div class="mtel">☎ 0507-1480-3536</div>
+  </div>
+</template>
+
 <template id="btn-1"><div class="btn">
-  <svg viewBox="0 0 48 48"><rect x="6" y="8" width="36" height="24" rx="3"/><path d="M14 40h20M24 32v8M13 17h14M13 23h9"/></svg>
+  <svg viewBox="0 0 48 48"><path d="M24 12c-5-3-11-4-17-3v27c6-1 12 0 17 3 5-3 11-4 17-3V9c-6-1-12 0-17 3zM24 12v27"/></svg>
   <b>수업 안내</b><small>학년·과목별 과정</small></div></template>
-<template id="btn-2"><div class="btn alt">
-  <svg viewBox="0 0 48 48"><rect x="7" y="9" width="34" height="32" rx="3"/><path d="M7 18h34M16 5v8M32 5v8M14 26h6M28 26h6M14 33h6"/></svg>
-  <b>시간표·수강료</b><small>교습비 게시</small></div></template>
-<template id="btn-3"><div class="btn light">
+<template id="btn-2"><div class="btn deep">
+  <svg viewBox="0 0 48 48"><rect x="7" y="9" width="34" height="32" rx="2"/><path d="M7 18h34M16 5v8M32 5v8M14 26h6M28 26h6M14 33h6"/></svg>
+  <b>시간표·교습비</b><small>학년별 시간표</small></div></template>
+<template id="btn-3"><div class="btn ivory">
   <svg viewBox="0 0 48 48"><path d="M24 43s13-12.5 13-23a13 13 0 0 0-26 0c0 10.5 13 23 13 23z"/><circle cx="24" cy="20" r="5"/></svg>
   <b>오시는 길</b><small>송파구 올림픽로12길 48</small></div></template>
 <template id="btn-4"><div class="btn kakao">
@@ -115,7 +147,7 @@
   <b>카톡 상담</b><small>방문 상담 예약</small></div></template>
 <template id="btn-5"><div class="btn call">
   <svg viewBox="0 0 48 48"><path d="M17 7l-6 1c-2 .5-3.5 2.5-3 4.7C11 26 22 37 35.3 40c2.2.5 4.2-1 4.7-3l1-6-8-4-4 4c-5-2.5-9.5-7-12-12l4-4z"/></svg>
-  <b>전화 상담</b><b class="num">0507-1480-3536</b></div></template>
+  <b>전화 상담</b><span class="num">0507-1480-3536</span></div></template>
 
 <div id="out"></div>
 
@@ -124,6 +156,7 @@
   const out = document.getElementById('out');
   const clone = id => document.getElementById(id).content.cloneNode(true);
   if (part === 'title') out.appendChild(clone('title-tpl'));
+  else if (part === 'mobile') out.appendChild(clone('mobile-tpl'));
   else if (part.startsWith('btn-')) out.appendChild(clone(part));
   else {
     const p = document.createElement('div'); p.className = 'preview';
