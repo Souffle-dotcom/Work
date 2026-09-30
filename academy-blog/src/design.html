@@ -20,7 +20,6 @@
     --ivory:#f7f4ec;
     --gold:#a88a52;
     --line:#d9d3c3;
-    --kakao:#fee500;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{background:#fff;font-family:'Noto Sans KR',sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
@@ -73,9 +72,9 @@
   .btn small{font-size:12px;opacity:.72;margin-top:-8px}
   .btn.deep{background:var(--navy-deep)}
   .btn.ivory{background:var(--ivory);color:var(--navy);box-shadow:inset 0 0 0 1px var(--line)}
-  .btn.kakao{background:var(--kakao);color:#3a1d1d}
-  .btn.call{background:#fff;color:var(--navy);box-shadow:inset 0 0 0 2px var(--navy)}
-  .btn.call .num{font-size:17px;font-weight:700;margin-top:-4px}
+  .btn.call{background:var(--navy);color:#fff;gap:8px}
+  .btn.call .num{font-size:18px;font-weight:700;color:#e9d8b4}
+  .btn.call .hint{margin-top:-2px}
 
   /* ---------- 모바일 커버 ---------- */
   .mobile{position:relative;width:1080px;height:1080px;background:var(--ivory);display:flex;flex-direction:column;
@@ -130,24 +129,25 @@
     <h1 class="serif">기본부터 바로 세우고,<br><em>끝까지</em> 확인합니다.</h1>
     <div class="sub">잠실본동 · 초·중·고 전과목 · 원장 직강 소수정예</div>
     <div class="mtel">☎ 0507-1480-3536</div>
+    <div class="sub" style="margin-top:12px;font-size:26px">전화로 방문 상담을 예약해 주세요</div>
   </div>
 </template>
 
-<template id="btn-1"><div class="btn">
+<template id="btn-1"><div class="btn ivory">
   <svg viewBox="0 0 48 48"><path d="M24 12c-5-3-11-4-17-3v27c6-1 12 0 17 3 5-3 11-4 17-3V9c-6-1-12 0-17 3zM24 12v27"/></svg>
   <b>수업 안내</b><small>학년·과목별 과정</small></div></template>
-<template id="btn-2"><div class="btn deep">
+<template id="btn-2"><div class="btn ivory">
   <svg viewBox="0 0 48 48"><rect x="7" y="9" width="34" height="32" rx="2"/><path d="M7 18h34M16 5v8M32 5v8M14 26h6M28 26h6M14 33h6"/></svg>
-  <b>시간표·교습비</b><small>학년별 시간표</small></div></template>
+  <b>시간표·반 안내</b><small>소수정예 반 편성</small></div></template>
 <template id="btn-3"><div class="btn ivory">
+  <svg viewBox="0 0 48 48"><path d="M6 20L24 9l18 11M10 22v17h28V22M20 39v-9h8v9"/></svg>
+  <b>학교별 내신</b><small>시험 일정·범위</small></div></template>
+<template id="btn-4"><div class="btn ivory">
   <svg viewBox="0 0 48 48"><path d="M24 43s13-12.5 13-23a13 13 0 0 0-26 0c0 10.5 13 23 13 23z"/><circle cx="24" cy="20" r="5"/></svg>
   <b>오시는 길</b><small>송파구 올림픽로12길 48</small></div></template>
-<template id="btn-4"><div class="btn kakao">
-  <svg viewBox="0 0 48 48" style="fill:currentColor;stroke:none"><path d="M24 8C13.5 8 5 14.7 5 23c0 5.3 3.5 10 8.8 12.6L12 42l7.4-4.9c1.5.2 3 .4 4.6.4 10.5 0 19-6.7 19-15S34.5 8 24 8z"/></svg>
-  <b>카톡 상담</b><small>방문 상담 예약</small></div></template>
 <template id="btn-5"><div class="btn call">
   <svg viewBox="0 0 48 48"><path d="M17 7l-6 1c-2 .5-3.5 2.5-3 4.7C11 26 22 37 35.3 40c2.2.5 4.2-1 4.7-3l1-6-8-4-4 4c-5-2.5-9.5-7-12-12l4-4z"/></svg>
-  <b>전화 상담</b><span class="num">0507-1480-3536</span></div></template>
+  <b>전화 상담</b><span class="num">0507-1480-3536</span><small class="hint">방문 상담 예약</small></div></template>
 
 <div id="out"></div>
 
@@ -165,8 +165,8 @@
     for (let i = 1; i <= 5; i++) row.appendChild(clone('btn-' + i));
     p.appendChild(row);
     const n = document.createElement('div'); n.className = 'notice';
-    n.innerHTML = '<div><span>공지</span>[필독] 베이직클래스 학년별 수업 안내 · 시간표 · 교습비</div>' +
-                  '<div><span>공지</span>[상담 안내] 방문 상담은 예약 후 가능합니다 (수업 중 상담 불가)</div>';
+    n.innerHTML = '<div><span>공지</span>[필독] 베이직클래스 학년별 수업 안내 · 시간표</div>' +
+                  '<div><span>공지</span>[상담 안내] 방문 상담은 전화 예약 후 가능합니다 (수업 중 상담 불가)</div>';
     p.appendChild(n);
     out.appendChild(p);
   }
