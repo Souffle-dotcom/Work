@@ -165,8 +165,9 @@
     for (let i = 1; i <= 5; i++) row.appendChild(clone('btn-' + i));
     p.appendChild(row);
     const n = document.createElement('div'); n.className = 'notice';
-    n.innerHTML = '<div><span>공지</span>[필독] 베이직클래스 학년별 수업 안내 · 시간표</div>' +
-                  '<div><span>공지</span>[상담 안내] 방문 상담은 전화 예약 후 가능합니다 (수업 중 상담 불가)</div>';
+    n.innerHTML = '<div><span>공지</span>[필독] 베이직클래스 학년별 수업 안내 (초등부·중등부·고등부)</div>' +
+                  '<div><span>공지</span>[시간표·반 안내] 잠실본동 베이직클래스, 한 반 최대 4명 소수정예 수업 안내</div>' +
+                  '<div><span>공지</span>[상담 예약] 방문 상담 예약 방법 · 오시는 길</div>';
     p.appendChild(n);
     out.appendChild(p);
   }
