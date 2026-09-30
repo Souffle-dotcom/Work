@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>베이직클래스 블로그 디자인</title>
+<!--
+  네이버 블로그 개편용 이미지 원본.
+  ?part=title   → 타이틀 이미지 (966×440)
+  ?part=btn-N   → 위젯 버튼 N (170×170, N=1..5)
+  ?part=preview → 적용 후 모습 미리보기 (966×660)
+  문구·전화번호는 아래 DATA만 고치면 전체에 반영된다.
+-->
+<style>
+  :root{
+    --navy:#1c2358; --navy-2:#27307a; --ink:#141833;
+    --orange:#ff6a2b; --cream:#fff6ec; --line:rgba(255,255,255,.10);
+    --kakao:#fee500;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#fff;font-family:'Noto Sans KR',sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+  .part{display:none}
+  .part.on{display:block}
+
+  /* ---------- 타이틀 ---------- */
+  .title{
+    position:relative;width:966px;height:440px;overflow:hidden;color:#fff;
+    background:
+      linear-gradient(var(--line) 1px,transparent 1px) 0 0/24px 24px,
+      linear-gradient(90deg,var(--line) 1px,transparent 1px) 0 0/24px 24px,
+      radial-gradient(120% 90% at 85% 10%,var(--navy-2) 0%,var(--navy) 55%,#141a45 100%);
+  }
+  .bar{position:absolute;left:40px;right:40px;top:26px;display:flex;align-items:center;justify-content:space-between}
+  .logo{display:flex;align-items:baseline;gap:10px}
+  .logo b{font-family:'Black Han Sans';font-weight:400;font-size:30px;letter-spacing:-.5px}
+  .logo span{font-size:12px;font-weight:700;letter-spacing:3px;color:rgba(255,255,255,.55)}
+  .tel{font-size:13px;color:rgba(255,255,255,.7);display:flex;align-items:baseline;gap:8px}
+  .tel strong{font-size:24px;font-weight:900;color:var(--orange);letter-spacing:-.3px}
+  .rule{position:absolute;left:40px;right:40px;top:78px;height:1px;background:rgba(255,255,255,.18)}
+
+  .hero{position:absolute;left:40px;top:118px;width:470px}
+  .chip{display:inline-block;font-size:13px;font-weight:700;padding:6px 12px;border-radius:999px;
+        background:rgba(255,106,43,.16);color:#ffb08c;border:1px solid rgba(255,106,43,.45)}
+  .hero h1{margin-top:18px;font-size:44px;line-height:1.22;font-weight:900;letter-spacing:-1.5px}
+  .hero h1 em{font-style:normal;color:var(--orange)}
+  .hero p{margin-top:18px;font-size:16px;line-height:1.6;color:rgba(255,255,255,.78)}
+  .subjects{margin-top:22px;display:flex;gap:6px}
+  .subjects i{font-style:normal;font-size:14px;font-weight:700;width:46px;height:46px;border-radius:12px;
+        display:grid;place-items:center;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16)}
+
+  .grades{position:absolute;right:40px;top:112px;width:360px;display:flex;flex-direction:column;gap:12px}
+  .grade{display:flex;align-items:center;gap:16px;padding:18px 20px;border-radius:16px;
+         background:#fff;color:var(--ink);box-shadow:0 10px 24px rgba(0,0,0,.22)}
+  .grade .no{flex:none;width:52px;height:52px;border-radius:14px;display:grid;place-items:center;
+         font-family:'Black Han Sans';font-size:22px;color:#fff;background:var(--navy)}
+  .grade:nth-child(2) .no{background:var(--navy-2)}
+  .grade:nth-child(3) .no{background:var(--orange)}
+  .grade h3{font-size:19px;font-weight:900;letter-spacing:-.5px}
+  .grade p{font-size:13.5px;color:#5a5f7a;margin-top:2px}
+  .grade .go{margin-left:auto;font-size:20px;color:#b5b9cc;font-weight:700}
+
+  /* ---------- 버튼 위젯 ---------- */
+  .btn{width:170px;height:170px;border-radius:18px;display:flex;flex-direction:column;align-items:center;
+       justify-content:center;gap:12px;background:var(--navy);color:#fff;text-align:center}
+  .btn svg{width:54px;height:54px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+  .btn b{font-size:19px;font-weight:900;letter-spacing:-.5px}
+  .btn small{font-size:12px;opacity:.7;margin-top:-8px}
+  .btn.alt{background:var(--navy-2)}
+  .btn.light{background:var(--cream);color:var(--navy)}
+  .btn.kakao{background:var(--kakao);color:#3a1d1d}
+  .btn.call{background:var(--orange)}
+  .btn.call b.num{font-size:17px;letter-spacing:-.2px}
+
+  /* ---------- 미리보기 ---------- */
+  .preview{width:966px;background:#fff}
+  .row{display:flex;justify-content:space-between;padding:24px 0 26px}
+  .notice{margin:0 0 24px;border-top:2px solid var(--navy);font-size:13px;color:#555}
+  .notice div{padding:10px 4px;border-bottom:1px solid #e6e7ee}
+  .notice span{color:var(--orange);font-weight:700;margin-right:8px}
+</style>
+</head>
+<body>
+
+<template id="title-tpl">
+  <div class="title">
+    <div class="bar">
+      <div class="logo"><b>베이직클래스</b><span>BASIC CLASS</span></div>
+      <div class="tel">전화상담 <strong>0507-1480-3536</strong></div>
+    </div>
+    <div class="rule"></div>
+    <div class="hero">
+      <span class="chip">잠실본동 · 초·중·고 전과목 소수정예</span>
+      <h1>원장이 직접 가르치고<br><em>끝까지</em> 확인합니다.</h1>
+      <p>학생 한 명 한 명의 빈틈을 찾아 채우는<br>소수정예 맞춤 지도 · 학교별 꼼꼼한 내신 대비</p>
+      <div class="subjects"><i>수학</i><i>영어</i><i>국어</i><i>사회</i><i>과학</i></div>
+    </div>
+    <div class="grades">
+      <div class="grade"><div class="no">초</div><div><h3>초등부</h3><p>개념 이해와 바른 공부 습관</p></div></div>
+      <div class="grade"><div class="no">중</div><div><h3>중등부</h3><p>학교별 내신 · 탄탄한 현행</p></div></div>
+      <div class="grade"><div class="no">고</div><div><h3>고등부</h3><p>내신 관리와 수능 기초</p></div></div>
+    </div>
+  </div>
+</template>
+
+<template id="btn-1"><div class="btn">
+  <svg viewBox="0 0 48 48"><rect x="6" y="8" width="36" height="24" rx="3"/><path d="M14 40h20M24 32v8M13 17h14M13 23h9"/></svg>
+  <b>수업 안내</b><small>학년·과목별 과정</small></div></template>
+<template id="btn-2"><div class="btn alt">
+  <svg viewBox="0 0 48 48"><rect x="7" y="9" width="34" height="32" rx="3"/><path d="M7 18h34M16 5v8M32 5v8M14 26h6M28 26h6M14 33h6"/></svg>
+  <b>시간표·수강료</b><small>교습비 게시</small></div></template>
+<template id="btn-3"><div class="btn light">
+  <svg viewBox="0 0 48 48"><path d="M24 43s13-12.5 13-23a13 13 0 0 0-26 0c0 10.5 13 23 13 23z"/><circle cx="24" cy="20" r="5"/></svg>
+  <b>오시는 길</b><small>송파구 올림픽로12길 48</small></div></template>
+<template id="btn-4"><div class="btn kakao">
+  <svg viewBox="0 0 48 48" style="fill:currentColor;stroke:none"><path d="M24 8C13.5 8 5 14.7 5 23c0 5.3 3.5 10 8.8 12.6L12 42l7.4-4.9c1.5.2 3 .4 4.6.4 10.5 0 19-6.7 19-15S34.5 8 24 8z"/></svg>
+  <b>카톡 상담</b><small>방문 상담 예약</small></div></template>
+<template id="btn-5"><div class="btn call">
+  <svg viewBox="0 0 48 48"><path d="M17 7l-6 1c-2 .5-3.5 2.5-3 4.7C11 26 22 37 35.3 40c2.2.5 4.2-1 4.7-3l1-6-8-4-4 4c-5-2.5-9.5-7-12-12l4-4z"/></svg>
+  <b>전화 상담</b><b class="num">0507-1480-3536</b></div></template>
+
+<div id="out"></div>
+
+<script>
+  const part = new URLSearchParams(location.search).get('part') || 'preview';
+  const out = document.getElementById('out');
+  const clone = id => document.getElementById(id).content.cloneNode(true);
+  if (part === 'title') out.appendChild(clone('title-tpl'));
+  else if (part.startsWith('btn-')) out.appendChild(clone(part));
+  else {
+    const p = document.createElement('div'); p.className = 'preview';
+    p.appendChild(clone('title-tpl'));
+    const row = document.createElement('div'); row.className = 'row';
+    for (let i = 1; i <= 5; i++) row.appendChild(clone('btn-' + i));
+    p.appendChild(row);
+    const n = document.createElement('div'); n.className = 'notice';
+    n.innerHTML = '<div><span>공지</span>[필독] 베이직클래스 학년별 수업 안내 · 시간표 · 교습비</div>' +
+                  '<div><span>공지</span>[상담 안내] 방문 상담은 예약 후 가능합니다 (수업 중 상담 불가)</div>';
+    p.appendChild(n);
+    out.appendChild(p);
+  }
+</script>
+</body>
+</html>
